@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Edit User Information</title>
+</head>
+
+<body>
+    <h1>Edit User Information</h1>
+    <a href="/"><button>Cancle</button></a>
+ <br><br>
+
+
+    <form action="/update/<%=item.userID%>" method="post"> 
+        <!-- 这里的item从app.js传过来，所以可以用 -->
+        ID:<br>
+        <input type="text" name="userID" value="<%=item.userID%>">
+        <br>
+
+        Name:<br>
+        <input type="text" name="userName" value="<%=item.userName%>">
+        <br>
+
+        Password:<br>
+        <input type="text" name="userPass" value="<%=item.userPass%>">
+        <br>
+
+        Mail:<br>
+        <input type="text" name="userMail" value="<%=item.userMail%>">
+        <br>
+
+        Phone:<br>
+        <input type="text" name="userPhone" value="<%=item.userPhone%>">
+        <br>
+
+        Address:<br>
+        <input type="text" name="userAddress" value="<%=item.userAddr%>">
+
+        <br><br>
+
+        <input type="submit" value="Submit Edition">
+    </form>
+
+    
+</body>
+
+</html>
