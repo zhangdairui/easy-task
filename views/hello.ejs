@@ -1,112 +1,271 @@
 <!DOCTYPE html>
+
+
 <html>
 
 <head>
     <meta charset="utf-8">
     <title>LIST APP</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
 </head>
 <style>
-    li{
-  		list-style: none;
-  	}
+    li {
+        list-style: none;
+    }
 
-  	table{
-  border-collapse:collapse;
-  }
+    table {
+        border-collapse: collapse;
+    }
 
-	table,th, td{
-  border: 1px solid black;
-  }
+    table, th, td {
+        border: 1px solid black;
+    }
 
- 	img{
- 		width: 200px;
- 	}
-  </style>
+    img {
+        width: 200px;
+    }
+
+    .listRow:hover{
+        background-color: #4dc71f;
+    }
+</style>
 
 <body>
-    <div class="container">
-        <div class="container-header">
-            <h1>User List APP</h1>
-            <a href="/loginReg"><button>Login</button></a>
-            <a href="/register"><button>Register</button></a>
-            <img src="/images/sample.png" alt="">
-        </div>
-        <br><br>
-        <div class="user-info">
-            User: <span><%= xiaoming %></span><br>
-            <a href="/logout">Log Out</a>
+<div class="container">
+    <div class="container-header">
+        <h1>Easy Task</h1>
+    </div>
+    <br><br>
+    <div class="user-info">
+        こんにちは！ <span><%= userID %></span><br>
+        <a href="/logout">ログアウト</a>
+    </div>
+    =============================================<br><br>
+    <a href="/new">
+        <button>新規タスクを登録する</button>
+    </a>
 
-        </div>
-        =============================================<br><br>
-        <a href="/new">
-            <button>Add New User</button>
-        </a>
-        <br><br>
-        <h3>Search</h3>
-        <div class="search">
-        	
-        	<form action="/search" method="post">
-        		ID:
-        		<input type="text" placeholder="Input ID" name="searchID" style="margin-right: 30px;" />
-
-        		<br><br>
-        		<input type="submit" value="Search">
-        		
-            	
-
-        	</form>
-        	<a href="/"><button>Display All</button></a>
-            
-        </div>
-        <br><br>
-        <h3>Search Result</h3>
-        <p>(Defult display all)</p>
-        <table>
+    <br><br>
+    <!--    UNCOMPLETED-->
+    <div>
+        <h3>Tasks</h3>
+        <p>Uncompleted</p>
+        <div id="empty-uncompleted" hidden="hidden">未完了タスクがありません。</div>
+        <table id="ucList">
             <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>pass</th>
-                <th>mail</th>
-                <th>phone</th>
-                <th>address</th>
-                <th>delete</th>
-                <th>edit</th>
+                <th>TaskID</th>
+                <th>Title</th>
+                <th>StartDay</th>
+                <th>FinishDay</th>
+                <th>Priority</th>
+                <th>Status</th>
             </tr>
-            <% USER.forEach((item) => { %> 
-            	<!-- 这里的USER接住了app.js传来的被定义成USER的results，item是新定义的 -->
-            <tr>
-                <td class="id-column">
-                    <%= item.userID %>
-                </td>
-                <td class="name-column">
-                    <%= item.userName %>
-                </td>
-                <td class="pass-column">
-                    <%= item.userPass %>
-                </td>
-                <td class="mail-column">
-                    <%= item.userMail %>
-                </td>
-                <td class="phone-column">
-                    <%= item.userPhone %>
-                </td>
-                <td class="addr-column">
-                    <%= item.userAddr %>
-                </td>
-                <td class="delete-column">
-                    <form action="/delete/<%=item.userID%>" method="post">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-                <td>
-                    <form action="/edit/<%=item.userID%>">
-                        <input type="submit" value="Edit">
-                    </form>
-                </td>
-            </tr>
+            <% ucTASK.forEach((item) => { %>
+                    <tr class="listRow" onclick="location.href='/edit/<%=item.taskId%>' ">
+                        <td class="taskID-column">
+                            <label><input name="taskCheck" type="checkbox" value=<%= item.taskId %>><%= item.taskId %>
+                            </label>
+                        </td>
+                        <td class="title-column">
+                            <%= item.title %>
+                        </td>
+                        <td class="start-column">
+                            <%= item.startDay.toLocaleDateString() %>
+                        </td>
+                        <td class="finish-column">
+                            <%= item.finishDay.toLocaleDateString() %>
+                        </td>
+                        <td class="priority-column">
+                            <%= item.priority %>
+                        </td>
+                        <td class="status-column">
+                            <%= item.status %>
+                        </td>
+                    </tr>
             <% }) %>
         </table>
+
+        <button type="button" class="deleBtn">選択した項目を削除する</button>
+        <button type="button" id="compltBtn">選択した項目を完成する</button>
+
+
+        <!--    COMPLETED-->
+        <div>
+            <p>completed</p>
+            <div id="empty-completed" hidden="hidden">完了タスクがありません。</div>
+
+            <table id="cList">
+                <tr>
+                    <th>TaskID</th>
+                    <th>Title</th>
+                    <th>StartDay</th>
+                    <th>FinishDay</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+
+                </tr>
+                <% cTASK.forEach((item) => { %>
+                    <tr>
+                        <td class="taskID-column">
+                            <label><input name="taskCheck" type="checkbox" value=<%= item.taskId %>><%= item.taskId %>
+                            </label>
+                        </td>
+                        <td class="title-column">
+                            <%= item.title %>
+                        </td>
+                        <td class="start-column">
+                            <%= item.startDay.toLocaleDateString() %>
+                        </td>
+                        <td class="finish-column">
+                            <%= item.finishDay.toLocaleDateString() %>
+                        </td>
+                        <td class="priority-column">
+                            <%= item.priority %>
+                        </td>
+                        <td class="status-column">
+                            <%= item.status %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </table>
+
+            <button type="button" class="deleBtn">選択した項目を削除する</button>
+
+        </div>
+
     </div>
+</div>
 </body>
 
+<script>
+    //-----------------------TASK EMPTY----------------------------------
+    $(document).ready(function () {
+        var num_uc = $("#ucList").find("tr").length;
+        var num_c = $("#cList").find("tr").length;
+
+        if (num_uc <= 1) {
+            $("#empty-uncompleted").removeAttr("hidden");
+            $("#ucList").attr("hidden", "hidden");
+        }
+
+        if (num_c <= 1) {
+            $("#empty-completed").removeAttr("hidden");
+            $("#cList").attr("hidden", "hidden");
+        }
+
+    });
+
+
+    //-----------------------DELETE----------------------------------
+    $('.deleBtn').click(function () {
+
+        var arr = [];
+        $("input[name='taskCheck']:checked").each(function (i) {
+            arr.push($(this).val());
+        })
+        //console.log(arr);
+
+        if (arr.length != 0) {
+            $.confirm({
+                title: '確認',
+                content: '選択した項目を削除してもいいですか？',
+                type: 'green',
+                icon: 'glyphicon glyphicon-question-sign',
+                buttons: {
+                    ok: {
+                        text: 'OK',
+                        btnClass: 'btn-primary',
+                        action: function () {
+                            $.ajax({
+                                type: 'post',
+                                url: '/delete',
+                                traditional: true,
+                                dataType: 'json',
+                                data: {
+                                    taskList: arr
+                                },
+                                async: true,
+                                success: function (data) {
+
+                                    if (data.code > 0) {
+                                        alert("Delete Succeed！");
+                                        window.location.href = '/';
+                                        // $('.spa1').text(data.msg) //可以选择在网页上显示后端传来的登陆成功的msg
+                                    } else {
+                                        //$('.spa1').text(data.msg);
+                                        alert("削除できませんでした！");
+                                    }
+                                },
+                                error: function (error) {
+                                    console.log(error)
+                                }
+                            })
+                        }
+                    },
+                    cancel: {
+                        text: '戻る',
+                        btnClass: 'btn-primary'
+                    }
+                }
+            })
+        }
+    })
+
+    //-----------------------COMPLETE----------------------------------
+    $('#compltBtn').click(function () {
+        var arr = [];
+        $("input[name='taskCheck']:checked").each(function (i) {
+            arr.push($(this).val());
+        })
+        if (arr.length != 0) {
+
+            $.confirm({
+                title: '確認',
+                content: '選択した項目の状態を「完成」にしてもいいですか?',
+                type: 'green',
+                icon: 'glyphicon glyphicon-question-sign',
+                buttons: {
+                    ok: {
+                        text: 'OK',
+                        btnClass: 'btn-primary',
+                        action: function () {
+                            $.ajax({
+                                type: 'post',
+                                url: '/complete',//后端通过这个url来识别这次ajax
+                                traditional: true,
+                                dataType: 'json',
+                                data: {
+                                    taskList: arr
+                                },
+                                async: true,
+                                success: function (data) {
+
+                                    if (data.code > 0) {
+                                        alert("Complete Succeed！");
+                                        window.location.href = '/';
+                                        // $('.spa1').text(data.msg)
+                                    } else {
+                                        //$('.spa1').text(data.msg);
+                                        alert("失败！");
+                                    }//弹出对话框
+                                },
+                                error: function (error) {
+                                    console.log(error)
+                                }
+                            })
+                        }
+                    },
+                    cancel: {
+                        text: '戻る',
+                        btnClass: 'btn-primary'
+                    }
+                }
+            })
+
+        }
+    })
+</script>
 </html>

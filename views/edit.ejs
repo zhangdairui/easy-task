@@ -3,46 +3,110 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Edit User Information</title>
+    <title>Edit Task</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <h1>Edit User Information</h1>
-    <a href="/"><button>Cancle</button></a>
- <br><br>
+<h1>Edit Task</h1>
+<a href="/">
+    <button>Cancle</button>
+</a>
+<br><br>
+
+<form action="/update/<%= item.taskId %>" method="post">
+    <!-- item is FROM app.js -->
+    Task ID:<br>
+    <input type="text" name="taskId" value="<%= item.taskId %>">
+    <br>
+
+    Title:<br>
+    <input type="text" name="title" value="<%= item.title %>">
+    <br>
+
+    <%
+        //String to yyyy-MM-dd
+    function changeDate(dateObj) {
+        var yyyy = dateObj.getFullYear();
+        var MM = dateObj.getMonth() + 1;
+        if (MM < 10) MM = '0' + MM;
+        var dd = dateObj.getDate();
+        var Date = yyyy + "-" + MM + "-" + dd;
+        return Date;
+    }
+    %>
+    Start From:<br>
+    <input type="date" name="startDay" value="<%= changeDate(item.startDay) %>">
+    <br>
+
+    Finish Before:<br>
+    <input type="date" name="finishDay" value="<%= changeDate(item.finishDay) %>">
+    <br>
+
+    Priority:<br>
+
+    <label><input name="pri" type="radio" value="1"
+        <% if(item.priority == "1"){ %> checked
+                <% } %>
+        />1</label>
+    <label><input name="pri" type="radio" value="2"
+        <% if(item.priority == "2"){ %> checked
+                <% } %>
+        />2</label>
+    <label><input name="pri" type="radio" value="3"
+        <% if(item.priority == "3"){ %> checked
+                <% } %>
+        />3</label>
+    <label><input name="pri" type="radio" value="4"
+        <% if(item.priority == "4"){ %> checked
+                <% } %>
+        />4</label>
+    <br>
+
+    Status:<br>
+    <label><input name="stu" type="radio" value="0"
+        <% if(item.status == "0"){ %> checked
+                <% } %>
+        />未完了</label>
+    <label><input name="stu" type="radio" value="1"
+        <% if(item.status == "1"){ %> checked
+                <% } %>
+        />完了</label>
+    <br>
+
+    <br><br>
+
+    <input type="button" value="Submit" onclick="sumbit_sure()">
+</form>
+<a href="/">
+    <button>戻る</button>
+</a>
 
 
-    <form action="/update/<%=item.userID%>" method="post"> 
-        <!-- 这里的item从app.js传过来，所以可以用 -->
-        ID:<br>
-        <input type="text" name="userID" value="<%=item.userID%>">
-        <br>
-
-        Name:<br>
-        <input type="text" name="userName" value="<%=item.userName%>">
-        <br>
-
-        Password:<br>
-        <input type="text" name="userPass" value="<%=item.userPass%>">
-        <br>
-
-        Mail:<br>
-        <input type="text" name="userMail" value="<%=item.userMail%>">
-        <br>
-
-        Phone:<br>
-        <input type="text" name="userPhone" value="<%=item.userPhone%>">
-        <br>
-
-        Address:<br>
-        <input type="text" name="userAddress" value="<%=item.userAddr%>">
-
-        <br><br>
-
-        <input type="submit" value="Submit Edition">
-    </form>
-
-    
 </body>
+<script>
+    function sumbit_sure(){
+        var t = $('form').serializeArray();
+        var empty = false;
+        $.each(t, function(){
+            if(this.value.length == 0){
+                alert('all required!');
+                empty = true;
+                return false;
+            }
+        })
+        if(empty){
+            return false;
+        }else{
+            var comf = confirm("提出してもいいですか？");
+            if (comf){
+                $('form').submit();
+                alert('更新しました！')
+            }else{
+                return false;
+            }
+        }
 
+    }
+</script>
 </html>

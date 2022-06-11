@@ -19,8 +19,8 @@
             <input type="password" name="pwd"></div>
         <div>
             <br><br>
-            <input type="submit" value="Login" id="btn">
-            <a href="/register"><button>Register</button></a>
+            <input type="submit" value="ログイン" id="btn">
+            <a href="/register"><button>新規登録</button></a>
             
             
             <span class="spa1"></span>
@@ -34,27 +34,26 @@
 <script>
 //-----------------------AJAX for login----------------------------------
 $(function(){
-     $('#btn').click(function(){ //当按下登录按钮的时候，启动下面的js
+     $('#btn').click(function(){
          var user=$('input[type=text]')
          var pwd=$('input[type=password]')
          var logindata={user:user.val(),pwd:pwd.val()}
          if(user.val().length==0||pwd.val().length==0){
-            $('.spa1').text('Id or password CANNOT be empty'); //首先id和pwd不能为空
+            $('.spa1').text('Id or password CANNOT be empty');
          }else{
-             $.ajax({ //只有满足了才能开始ajax，向后端post上面定义好的logindata，并且指定这个ajax的url是/login
-
+             $.ajax({ //POST
                  type:'post',
-                 url:'/login',//后端通过这个url来识别这次ajax
+                 url:'/login',
                  dataType:'json',
                  data:logindata,
                  success:function(data){
-                     if(data.code>0){ //如果后端传来的datacode大于0,说明登录成功
-                        window.location.href='/'; //此处选择了跳转首页，window.location是前端跳转的方式
-                         // alert("Login Succeed！"); //可以选择弹出对话框
-                        // $('.spa1').text(data.msg) //可以选择在网页上显示后端传来的登陆成功的msg
+                     if(data.code>0){ //ログイン成功
+                        window.location.href='/';
+                         // alert("Login Succeed！");
+                        // $('.spa1').text(data.msg)
                      }else{
                         $('.spa1').text(data.msg);
-                        alert("不匹配！"); }//弹出对话框
+                        alert("IDかパスワードが間違っています！"); }
                  },
                  error:function(error){
                      console.log(error)

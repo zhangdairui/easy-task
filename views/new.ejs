@@ -4,27 +4,73 @@
 <head>
     <meta charset="utf-8">
     <title>Add New</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <form action="/create" method="post">
-        ID:<br>
-        <input type="text" name="userID" >
+<h1>新しいタスクを登録する</h1>
+    <form id="newTaskForm" action="/create" method="post">
+        Task ID:<br>
+        <input type="text" name="taskId">
         <br>
 
-        Name:<br>
-        <input type="text" name="userName">
+        Task Title:<br>
+        <input type="text" name="title">
         <br>
 
-        Password:<br>
-        <input type="text" name="userPass">
+        Start From:<br>
+        <input type="date" name="startDay">
+        <br>
+
+        Finish Before:<br>
+        <input type="date" name="finishDay">
+        <br>
+
+        Priority:<br>
+        <label><input name="pri" type="radio" value="1" checked/>1</label>
+        <label><input name="pri" type="radio" value="2" />2</label>
+        <label><input name="pri" type="radio" value="3" />3</label>
+        <label><input name="pri" type="radio" value="4" />4</label>
+        <br>
+
+        Status:<br>
+        <label><input name="stu" type="radio" value="0" checked/>未完了</label>
+        <label><input name="stu" type="radio" value="1" />完了</label>
+        <br>
 
         <br><br>
 
-        <input type="submit" value="Submit">
+        <input type="button" value="Submit" onclick="sumbit_sure()">
     </form>
-
+<a href="/">
+    <button>戻る</button>
+</a>
     
 </body>
+<script>
+    function sumbit_sure(){
+        //全ての項目が必須！
+        var t = $('form').serializeArray();
+        var empty = false;
+        $.each(t, function(){
+            if(this.value.length == 0){
+                alert('all required!');
+                empty = true;
+                return false;
+            }
+        })
+        if(empty){
+            return false;
+        }else{
+            var comf = confirm("提出してもいいですか。");
+            if (comf){
+                $('#newTaskForm').submit();
+                alert('新規タスク登録しました！')
+            }else{
+                return false;
+            }
+        }
 
+    }
+</script>
 </html>

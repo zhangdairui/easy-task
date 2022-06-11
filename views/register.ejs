@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>Register</h1>
+    <h1>新規ユーザー登録</h1>
     <form action="/reg" method="post">
         ID:<br>
         <input type="text" name="userID">
@@ -20,14 +20,12 @@
         <input id="password2" type="password" name="userPass">
         <br><br>
 
-        <input id="ChangePassword" type="submit" value="Submit" disabled="true">
-
-       
-        <span id="pwmatch" style="display: none">两次输入的密码不一致</span>
+        <input id="ChangePassword" type="submit" value="登録" disabled="true">
+        <span id="pwmatch" style="display: none">パスワードが一致していない！</span>
             
         
     </form>
-     <a href="/loginReg"><button>Login</button></a>
+     <a href="/loginReg"><button>戻る</button></a>
 </body>
 
 </html>
