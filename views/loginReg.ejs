@@ -3,64 +3,75 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
+
+
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
+
 </head>
 
 <body>
-   <h1>Log in</h1>
-        <div>
-            <span>ID: </span><br>
-            <input type="text" name="user">
-        </div>
+<div class="card text-center mt-lg-5 border-0" style="width: 18em; margin: 0 auto;">
+    <div class="card-body ">
 
-        <div>
-            <span>Password:</span><br>
-            <input type="password" name="pwd"></div>
-        <div>
-            <br><br>
-            <input type="submit" value="ログイン" id="btn">
-            <a href="/register"><button>新規登録</button></a>
-            
-            
-            <span class="spa1"></span>
-            
-            
-        </div>
-    
+        <a href="/"><img src="/images/logo.png" class="img-fluid" alt=""></a>
+            <div class="form-floating  mb-3">
+                <input type="text" class="form-control" placeholder="id">
+                <label for="floatingInput">ID</label>
+            </div>
+            <div class="form-floating  mb-5">
+                <input type="password" class="form-control" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+
+            <div class="d-grid gap-2">
+            <input class="btn btn-outline-primary mb-2" type="submit" value="ログイン" id="btn">
+            <a href="/register" role="button" class="btn btn-outline-primary">新規登録</a>
+            </div>
+    </div>
+</div>
+<footer>
+    <p>©2022 Dairui Zhang.</p>
+</footer>
 </body>
 
 </html>
 <script>
-//-----------------------AJAX for login----------------------------------
-$(function(){
-     $('#btn').click(function(){
-         var user=$('input[type=text]')
-         var pwd=$('input[type=password]')
-         var logindata={user:user.val(),pwd:pwd.val()}
-         if(user.val().length==0||pwd.val().length==0){
-            $('.spa1').text('Id or password CANNOT be empty');
-         }else{
-             $.ajax({ //POST
-                 type:'post',
-                 url:'/login',
-                 dataType:'json',
-                 data:logindata,
-                 success:function(data){
-                     if(data.code>0){ //ログイン成功
-                        window.location.href='/';
-                         // alert("Login Succeed！");
-                        // $('.spa1').text(data.msg)
-                     }else{
-                        $('.spa1').text(data.msg);
-                        alert("IDかパスワードが間違っています！"); }
-                 },
-                 error:function(error){
-                     console.log(error)
-                 }
-             })
-         }
-     })
+    //-----------------------AJAX for login----------------------------------
+    $(function () {
+        $('#btn').click(function () {
+            var user = $('input[type=text]')
+            var pwd = $('input[type=password]')
+            var logindata = {user: user.val(), pwd: pwd.val()}
+            if (user.val().length == 0 || pwd.val().length == 0) {
+                $('.spa1').text('Id or password CANNOT be empty');
+            } else {
+                $.ajax({ //POST
+                    type: 'post',
+                    url: '/login',
+                    dataType: 'json',
+                    data: logindata,
+                    success: function (data) {
+                        if (data.code > 0) { //ログイン成功
+                            window.location.href = '/';
+                            // alert("Login Succeed！");
+                            // $('.spa1').text(data.msg)
+                        } else {
+                            $('.spa1').text(data.msg);
+                            alert("IDかパスワードが間違っています！");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
+            }
+        })
 
- })
+    })
 </script>

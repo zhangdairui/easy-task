@@ -19,6 +19,7 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
     cookie: {
+        httpOnly: true,
         maxAge: 1000 * 60 * 30, //session's time
     },
 }));
@@ -251,4 +252,4 @@ app.post('/update/:id', (req, res) => {
 })
 
 //监听端口
-app.listen(8000);
+app.listen(8003);

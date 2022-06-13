@@ -3,46 +3,65 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register</title>
+
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
-    <h1>新規ユーザー登録</h1>
-    <form action="/reg" method="post">
-        ID:<br>
-        <input type="text" name="userID">
-        <br><br>
-        Password1:<br>
-        <input id="password1" type="password" name="userPass1">
-        <br><br>
-        Password Again:<br>
-        <input id="password2" type="password" name="userPass">
-        <br><br>
 
-        <input id="ChangePassword" type="submit" value="登録" disabled="true">
-        <span id="pwmatch" style="display: none">パスワードが一致していない！</span>
-            
-        
-    </form>
-     <a href="/loginReg"><button>戻る</button></a>
+<div class="card text-center mt-lg-5 border-0" style="width: 18em; margin: 0 auto;">
+    <div class="card-body">
+        <a href="/"><img src="/images/logo.png" class="img-fluid" alt=""></a>
+        <form action="/reg" method="post">
+            <div class="form-floating  mb-3">
+                <input type="text" class="form-control" name="userID" placeholder="id">
+                <label for="floatingInput">ID</label>
+            </div>
+            <div class="form-floating  mb-3">
+                <input type="password" id="password1" class="form-control" name="userPass1" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="form-floating  mb-5">
+                <input type="password" id="password2" class="form-control" name="userPass" placeholder="Password">
+                <label for="floatingPassword">Password Again</label>
+            </div>
+            <div id="pwmatch" class="alert alert-secondary" role="alert" style="display: none; font-size: smaller;">パスワードが一致していないよ！
+            </div>
+
+
+            <div class="d-grid gap-2">
+            <input class="btn btn-outline-primary mb-2" id="ChangePassword" type="submit" value="登録" disabled="true">
+            <a  href="/loginReg" role="button" class="btn btn-outline-primary">戻る</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+<footer>
+    <p>©2022 Dairui Zhang.</p>
+</footer>
 </body>
 
 </html>
 <script>
 
+    $("input[type=password]").keyup(function () {
+        if ($("#password1").val() != "" || $("#password2").val() != "") {
+            if ($("#password1").val() == $("#password2").val()) {
 
-$("input[type=password]").keyup(function() {
-            if ($("#password1").val() != "" || $("#password2").val() != "") {
-                if ($("#password1").val() == $("#password2").val()) {
+                $("#pwmatch").css("display", "none");
+                $("#ChangePassword").attr('disabled', false);
 
-                    $("#pwmatch").css("display", "none");
-                    $("#ChangePassword").attr('disabled', false);
-
-                } else {
-                    $("#pwmatch").css("display", "block");
-                    $("#ChangePassword").attr('disabled', 'disabled');
-                }
+            } else {
+                $("#pwmatch").css("display", "block");
+                $("#ChangePassword").attr('disabled', 'disabled');
             }
-        });
+        }
+    });
 </script>

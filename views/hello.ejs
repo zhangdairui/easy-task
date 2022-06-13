@@ -1,167 +1,199 @@
 <!DOCTYPE html>
-
-
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>LIST APP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Home</title>
+
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="/css/main.css">
 </head>
-<style>
-    li {
-        list-style: none;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
-
-    table, th, td {
-        border: 1px solid black;
-    }
-
-    img {
-        width: 200px;
-    }
-
-    .listRow:hover{
-        background-color: #4dc71f;
-    }
-</style>
 
 <body>
-<div class="container">
-    <div class="container-header">
-        <h1>Easy Task</h1>
+<nav class="navbar">
+    <div class="container-fluid d-flex flex-row-reverse">
+        <span class="navbar-text" >こんにちは！<%= userID %>
+            <a href="/logout" id="loggout" class="text-end" style="margin-left: 1.5em;">ログアウト</a>
+        </span>
     </div>
-    <br><br>
-    <div class="user-info">
-        こんにちは！ <span><%= userID %></span><br>
-        <a href="/logout">ログアウト</a>
-    </div>
-    =============================================<br><br>
-    <a href="/new">
-        <button>新規タスクを登録する</button>
-    </a>
+</nav>
 
-    <br><br>
-    <!--    UNCOMPLETED-->
-    <div>
-        <h3>Tasks</h3>
-        <p>Uncompleted</p>
-        <div id="empty-uncompleted" hidden="hidden">未完了タスクがありません。</div>
-        <table id="ucList">
-            <tr>
-                <th>TaskID</th>
-                <th>Title</th>
-                <th>StartDay</th>
-                <th>FinishDay</th>
-                <th>Priority</th>
-                <th>Status</th>
-            </tr>
-            <% ucTASK.forEach((item) => { %>
-                    <tr class="listRow" onclick="location.href='/edit/<%=item.taskId%>' ">
-                        <td class="taskID-column">
-                            <label><input name="taskCheck" type="checkbox" value=<%= item.taskId %>><%= item.taskId %>
-                            </label>
-                        </td>
-                        <td class="title-column">
-                            <%= item.title %>
-                        </td>
-                        <td class="start-column">
-                            <%= item.startDay.toLocaleDateString() %>
-                        </td>
-                        <td class="finish-column">
-                            <%= item.finishDay.toLocaleDateString() %>
-                        </td>
-                        <td class="priority-column">
-                            <%= item.priority %>
-                        </td>
-                        <td class="status-column">
-                            <%= item.status %>
-                        </td>
-                    </tr>
-            <% }) %>
-        </table>
-
-        <button type="button" class="deleBtn">選択した項目を削除する</button>
-        <button type="button" id="compltBtn">選択した項目を完成する</button>
-
-
-        <!--    COMPLETED-->
-        <div>
-            <p>completed</p>
-            <div id="empty-completed" hidden="hidden">完了タスクがありません。</div>
-
-            <table id="cList">
-                <tr>
-                    <th>TaskID</th>
-                    <th>Title</th>
-                    <th>StartDay</th>
-                    <th>FinishDay</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-
-                </tr>
-                <% cTASK.forEach((item) => { %>
-                    <tr>
-                        <td class="taskID-column">
-                            <label><input name="taskCheck" type="checkbox" value=<%= item.taskId %>><%= item.taskId %>
-                            </label>
-                        </td>
-                        <td class="title-column">
-                            <%= item.title %>
-                        </td>
-                        <td class="start-column">
-                            <%= item.startDay.toLocaleDateString() %>
-                        </td>
-                        <td class="finish-column">
-                            <%= item.finishDay.toLocaleDateString() %>
-                        </td>
-                        <td class="priority-column">
-                            <%= item.priority %>
-                        </td>
-                        <td class="status-column">
-                            <%= item.status %>
-                        </td>
-                    </tr>
-                <% }) %>
-            </table>
-
-            <button type="button" class="deleBtn">選択した項目を削除する</button>
-
+<div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="container-header mb-5 row">
+        <div class="col-md-3 text-start">
+            <a href="/"><img src="/images/homeLogo.png" class="img-fluid" alt=""></a>
         </div>
 
+        <div class="newBtn d-grid gap-2  d-md-flex justify-content-md-end">
+            <a href="/new" role="button" id="newBtn" class="btn btn-outline-primary col-md-3 offset-md-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                </svg>
+                新規タスクを登録する
+            </a>
+        </div>
     </div>
+
+
+    <div class="card border-0">
+
+        <!--TAB-->
+        <div class="card-body" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;">
+            <ul class="nav nav-tabs nav-justified mb-5" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="uncompleted-tab" data-bs-toggle="tab"
+                            data-bs-target="#uncompleted"
+                            type="button" role="tab" aria-controls="uncompleted" aria-selected="true">未完了タスク
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed"
+                            type="button"
+                            role="tab" aria-controls="completed" aria-selected="false">完了タスク
+                    </button>
+                </li>
+            </ul>
+            <!--TAB　CONTENT-->
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="uncompleted" role="tabpanel"
+                     aria-labelledby="uncompleted-tab">
+                    <div id="empty-uncompleted" hidden="hidden" class="alert alert-light text-center" role="alert">未完了タスクがありません。</div>
+                    <div class="table-responsive">
+                    <table id="ucList" class="table table-hover table-borderless mb-5">
+                        <tr>
+                            <th scope="col">選択</th>
+                            <th scope="col">タスクID</th>
+                            <th scope="col">タイトル</th>
+                            <th scope="col">予定日</th>
+                            <th scope="col">完了日</th>
+                            <th scope="col">優先順位 <a tabindex="0" id="priMeaning"
+                                                    class="badge rounded-pill bg-light text-dark" role="button"
+                                                    data-bs-toggle="popover" data-bs-trigger="focus" title="優先順位"
+                                                    data-bs-content="1>2>3>4">?</a></th>
+                            <!--                    <th scope="col">Status</th>-->
+                        </tr>
+                        <% ucTASK.forEach((item) => { %>
+                            <tr class="listRow" onclick="location.href='/edit/<%= item.taskId %>' ">
+                                <td class="check-column" onclick="stopHref()">
+                                    <input class="square-check" name="taskCheck" type="checkbox" value=<%= item.taskId %>>
+                                </td>
+                                <td class="taskID-column">
+                                    <%= item.taskId %>
+                                </td>
+                                <td class="title-column">
+                                    <%= item.title %>
+                                </td>
+                                <td class="start-column">
+                                    <%= item.startDay.toLocaleDateString() %>
+                                </td>
+                                <td class="finish-column">
+                                    <%= item.finishDay.toLocaleDateString() %>
+                                </td>
+                                <td class="priority-column">
+                                    <%= item.priority %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </table>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex">
+
+                    <button type="button" id="deBtn-uc" class="deleBtn btn btn-outline-primary" >選択した項目を削除する</button>
+                    <button type="button" id="compltBtn" class="btn btn-outline-primary">選択した項目を完成する</button>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                    <div id="empty-completed" hidden="hidden" class="alert alert-light text-center" role="alert">完了タスクがありません。</div>
+                    <div class="table-responsive">
+                    <table id="cList" class="table table-hover table-borderless  mb-5">
+                        <tr>
+                            <th scope="col">選択</th>
+                            <th scope="col">タスクID</th>
+                            <th scope="col">タイトル</th>
+                            <th scope="col">予定日</th>
+                            <th scope="col">完了日</th>
+                            <th scope="col">優先順位 <a tabindex="0" id="priMeaning"
+                                                    class="badge rounded-pill bg-light text-dark" role="button"
+                                                    data-bs-toggle="popover" data-bs-trigger="focus" title="優先順位"
+                                                    data-bs-content="1>2>3>4">?</a></th>
+
+                        </tr>
+                        <% cTASK.forEach((item) => { %>
+                            <tr class="listRow" onclick="location.href='/edit/<%= item.taskId %>' ">
+                                <td class="check-column" onclick="stopHref()">
+                                    <input name="taskCheck" type="checkbox" value=<%= item.taskId %>>
+                                </td>
+                                <td class="taskID-column">
+                                    <%= item.taskId %>
+                                </td>
+                                <td class="title-column">
+                                    <%= item.title %>
+                                </td>
+                                <td class="start-column">
+                                    <%= item.startDay.toLocaleDateString() %>
+                                </td>
+                                <td class="finish-column">
+                                    <%= item.finishDay.toLocaleDateString() %>
+                                </td>
+                                <td class="priority-column">
+                                    <%= item.priority %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </table>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex">
+                    <button type="button" id="deBtn-c" class="deleBtn btn btn-outline-primary">選択した項目を削除する</button>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <p>©2022 Dairui Zhang.</p>
+</footer>
 </div>
 </body>
 
 <script>
     //-----------------------TASK EMPTY----------------------------------
     $(document).ready(function () {
+
         var num_uc = $("#ucList").find("tr").length;
         var num_c = $("#cList").find("tr").length;
 
         if (num_uc <= 1) {
             $("#empty-uncompleted").removeAttr("hidden");
             $("#ucList").attr("hidden", "hidden");
+            $("#deBtn-uc").attr("hidden", "hidden");
+            $("#compltBtn").attr("hidden", "hidden");
         }
 
         if (num_c <= 1) {
             $("#empty-completed").removeAttr("hidden");
             $("#cList").attr("hidden", "hidden");
+            $("#deBtn-c").attr("hidden", "hidden");
         }
 
+        var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+        var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
+            trigger: 'focus'
+        })
     });
-
-
+    //-----------------------BUBBLE STOP阻止穿透----------------------------------
+    var stopHref = function () {
+        event.stopPropagation();
+    }
     //-----------------------DELETE----------------------------------
     $('.deleBtn').click(function () {
-
         var arr = [];
         $("input[name='taskCheck']:checked").each(function (i) {
             arr.push($(this).val());
@@ -169,102 +201,76 @@
         //console.log(arr);
 
         if (arr.length != 0) {
-            $.confirm({
-                title: '確認',
-                content: '選択した項目を削除してもいいですか？',
-                type: 'green',
-                icon: 'glyphicon glyphicon-question-sign',
-                buttons: {
-                    ok: {
-                        text: 'OK',
-                        btnClass: 'btn-primary',
-                        action: function () {
-                            $.ajax({
-                                type: 'post',
-                                url: '/delete',
-                                traditional: true,
-                                dataType: 'json',
-                                data: {
-                                    taskList: arr
-                                },
-                                async: true,
-                                success: function (data) {
+            var comf = confirm("選択した項目を削除してもいいですか？");
+            if (comf) {
+                $.ajax({
+                    type: 'post',
+                    url: '/delete',
+                    traditional: true,
+                    dataType: 'json',
+                    data: {
+                        taskList: arr
+                    },
+                    async: true,
+                    success: function (data) {
 
-                                    if (data.code > 0) {
-                                        alert("Delete Succeed！");
-                                        window.location.href = '/';
-                                        // $('.spa1').text(data.msg) //可以选择在网页上显示后端传来的登陆成功的msg
-                                    } else {
-                                        //$('.spa1').text(data.msg);
-                                        alert("削除できませんでした！");
-                                    }
-                                },
-                                error: function (error) {
-                                    console.log(error)
-                                }
-                            })
+                        if (data.code > 0) {
+                            alert("削除しました！");
+                            window.location.href = '/';
+                            // $('.spa1').text(data.msg) //可以选择在网页上显示后端传来的登陆成功的msg
+                        } else {
+                            //$('.spa1').text(data.msg);
+                            alert("削除できませんでした！");
                         }
                     },
-                    cancel: {
-                        text: '戻る',
-                        btnClass: 'btn-primary'
+                    error: function (error) {
+                        console.log(error)
                     }
-                }
-            })
+                })
+            } else {
+                return false;
+            }
+
         }
     })
 
     //-----------------------COMPLETE----------------------------------
+
     $('#compltBtn').click(function () {
         var arr = [];
         $("input[name='taskCheck']:checked").each(function (i) {
             arr.push($(this).val());
         })
         if (arr.length != 0) {
-
-            $.confirm({
-                title: '確認',
-                content: '選択した項目の状態を「完成」にしてもいいですか?',
-                type: 'green',
-                icon: 'glyphicon glyphicon-question-sign',
-                buttons: {
-                    ok: {
-                        text: 'OK',
-                        btnClass: 'btn-primary',
-                        action: function () {
-                            $.ajax({
-                                type: 'post',
-                                url: '/complete',//后端通过这个url来识别这次ajax
-                                traditional: true,
-                                dataType: 'json',
-                                data: {
-                                    taskList: arr
-                                },
-                                async: true,
-                                success: function (data) {
-
-                                    if (data.code > 0) {
-                                        alert("Complete Succeed！");
-                                        window.location.href = '/';
-                                        // $('.spa1').text(data.msg)
-                                    } else {
-                                        //$('.spa1').text(data.msg);
-                                        alert("失败！");
-                                    }//弹出对话框
-                                },
-                                error: function (error) {
-                                    console.log(error)
-                                }
-                            })
-                        }
+            var comf = confirm("選択した項目を削除してもいいですか？");
+            if (comf) {
+                $.ajax({
+                    type: 'post',
+                    url: '/complete',//后端通过这个url来识别这次ajax
+                    traditional: true,
+                    dataType: 'json',
+                    data: {
+                        taskList: arr
                     },
-                    cancel: {
-                        text: '戻る',
-                        btnClass: 'btn-primary'
-                    }
-                }
-            })
+                    async: true,
+                    success: function (data) {
 
+                        if (data.code > 0) {
+                            alert("完了しましたよ！");
+                            window.location.href = '/';
+                            // $('.spa1').text(data.msg)
+                        } else {
+                            //$('.spa1').text(data.msg);
+                            alert("完了失败！");
+                        }//弹出对话框
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
+            } else {
+                return false;
+            }
         }
     })
 </script>
