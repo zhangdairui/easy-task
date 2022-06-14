@@ -26,6 +26,7 @@ app.use(session({
 
 //CONNECT mySQL
 //[easyTask] database: appUser  task
+//開発
 const connection = mysql.createConnection({
     host: '127.0.0.1', //or localhost
     user: 'root',
@@ -33,6 +34,16 @@ const connection = mysql.createConnection({
     database: 'easyTask',
     multipleStatements: true // multiple SQL
 });
+//生産
+// const connection = mysql.createConnection({
+//     host: '43.128.233.127', //or localhost
+//     port:'3306',
+//     user: 'easyTask',
+//     password: 'dairuiZhang1993',
+//     database: 'easytask',
+//     multipleStatements: true // multiple SQL
+//
+// });
 
 module.exports = connection
 
@@ -85,27 +96,40 @@ app.get('/logout', function (req, res) {
 app.get('/register', (req, res) => {
     res.render('register.ejs');
 })
+
+
 //--------------ユーザー新規登録機能--------------//
-app.post('/reg', (req, res) => {
-    //console.log(req.body.userPass);
+
+app.use('/reg', (req, res) => {
+    //console.log(req.body);
+    var login = {
+        "user": req.body.user,
+        "pwd": req.body.pwd
+    }
     connection.query(
         'INSERT INTO appUser SET ?',
         {
-            id: req.body.userID,
-            password: req.body.userPass1
+            id: login.user,
+            password: login.pwd
         },
 
         (error, results) => {
-            if (error) {
-                console.log('登録失敗！' + error);
-            } else {
+            if(error){
+                if (error.code=='ER_DUP_ENTRY'){
+                    console.log('このIDは既に登録されています！');
+                    res.json({code: -1, msg: 'このIDは既に登録されています！'})
+                }
+                if(error.code=='ER_BAD_NULL_ERROR'){
+                    return;
+                }
+            }else{
                 console.log('新規ユーザーを登録しました！');
-                res.redirect('/loginReg');
+                res.json({code: 1, msg: '登録成功！'})
+                // res.redirect('/loginReg');
             }
         }
     );
 })
-
 //--------------task homepage--------------//
 app.get('/', (req, res) => {
 

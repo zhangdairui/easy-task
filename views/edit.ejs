@@ -131,7 +131,7 @@
         </div>
         <div class="text-center d-grid gap-2 d-md-flex">
         <input class="btn btn-outline-primary" type="button" value="Submit" onclick="sumbit_sure()">
-        <a class="btn btn-outline-primaryy col" href="/" role="button">戻る</a>
+        <a class="btn btn-outline-primary" href="/" role="button">戻る</a>
         </div>
     </form>
         </div>
@@ -148,7 +148,7 @@
         var empty = false;
         $.each(t, function(){
             if(this.value.length == 0){
-                alert('all required!');
+                alert('全ての項目が必須です！');
                 empty = true;
                 return false;
             }

@@ -20,7 +20,7 @@
         <a href="/"><img src="/images/logo.png" class="img-fluid" alt=""></a>
         <form action="/reg" method="post">
             <div class="form-floating  mb-3">
-                <input type="text" class="form-control" name="userID" placeholder="id">
+                <input id="regId" type="text" class="form-control" name="userID" placeholder="id">
                 <label for="floatingInput">ID</label>
             </div>
             <div class="form-floating  mb-3">
@@ -31,13 +31,14 @@
                 <input type="password" id="password2" class="form-control" name="userPass" placeholder="Password">
                 <label for="floatingPassword">Password Again</label>
             </div>
-            <div id="pwmatch" class="alert alert-secondary" role="alert" style="display: none; font-size: smaller;">パスワードが一致していないよ！
+            <div id="pwmatch" class="alert alert-secondary" role="alert" style="display: none; font-size: smaller;">
+                パスワードが一致していないよ！
             </div>
 
 
             <div class="d-grid gap-2">
-            <input class="btn btn-outline-primary mb-2" id="ChangePassword" type="submit" value="登録" disabled="true">
-            <a  href="/loginReg" role="button" class="btn btn-outline-primary">戻る</a>
+                <input class="btn btn-outline-primary mb-2" id="regBtn" type="submit" value="登録" disabled="true">
+                <a href="/loginReg" role="button" class="btn btn-outline-primary">戻る</a>
             </div>
         </form>
 
@@ -56,12 +57,45 @@
             if ($("#password1").val() == $("#password2").val()) {
 
                 $("#pwmatch").css("display", "none");
-                $("#ChangePassword").attr('disabled', false);
+                $("#regBtn").attr('disabled', false);
 
             } else {
                 $("#pwmatch").css("display", "block");
-                $("#ChangePassword").attr('disabled', 'disabled');
+                $("#regBtn").attr('disabled', 'disabled');
             }
         }
     });
+
+    //-----------------------AJAX for Signin----------------------------------
+    $(function () {
+        $('#regBtn').click(function () {
+            var user = $('input[type=text]')
+            var pwd = $('input[type=password]')
+            var regdata = {
+                user: user.val(),
+                pwd: pwd.val()
+            }
+                $.ajax({ //POST
+                    type: 'post',
+                    url: '/reg',
+                    dataType: 'json',
+                    data: regdata,
+                    async: true,
+                    success: function (data) {
+                        if (data.code > 0) {
+                            //成功
+                            alert(data.msg);
+                            window.location.href = '/';
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
+        })
+    })
+
+
 </script>

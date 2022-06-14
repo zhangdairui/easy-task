@@ -49,7 +49,7 @@
             var pwd = $('input[type=password]')
             var logindata = {user: user.val(), pwd: pwd.val()}
             if (user.val().length == 0 || pwd.val().length == 0) {
-                $('.spa1').text('Id or password CANNOT be empty');
+                alert("IDとパスワードを入力してください！");
             } else {
                 $.ajax({ //POST
                     type: 'post',
@@ -59,10 +59,7 @@
                     success: function (data) {
                         if (data.code > 0) { //ログイン成功
                             window.location.href = '/';
-                            // alert("Login Succeed！");
-                            // $('.spa1').text(data.msg)
                         } else {
-                            $('.spa1').text(data.msg);
                             alert("IDかパスワードが間違っています！");
                         }
                     },

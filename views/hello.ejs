@@ -242,7 +242,7 @@
             arr.push($(this).val());
         })
         if (arr.length != 0) {
-            var comf = confirm("選択した項目を削除してもいいですか？");
+            var comf = confirm("選択した項目の状態を完了に設定してもいいですか？");
             if (comf) {
                 $.ajax({
                     type: 'post',
