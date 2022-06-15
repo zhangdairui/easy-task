@@ -19,6 +19,7 @@
             margin-bottom: 1em;
             color: #545273;
         }
+
         h3:before {
             content: '';
             position: absolute;
@@ -48,92 +49,108 @@
         <h3 class="card-title text-center mb-5">タスクを編集する</h3>
 
         <div class="card-body" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;">
-    <form id="editTaskForm" action="/update/<%= item.taskId %>" method="post">
-        <div class="mb-5 form-group">
-            <label for="taskIdInput" class="form-label   badge rounded-pill bg-light text-dark">タスクID</label>
-            <input type="text" class="form-control" name="taskId" value="<%= item.taskId %>" id="taskIdInput">
-        </div>
+            <form id="editTaskForm" action="/update/<%= item.taskId %>" method="post">
+                <div class="mb-5 form-group">
+                    <label for="taskIdInput" class="form-label   badge rounded-pill bg-light text-dark">タスクID</label>
+                    <input type="text" class="form-control" name="taskId" value="<%= item.taskId %>" id="taskIdInput">
+                </div>
 
-        <div class="mb-5 form-group">
-            <label for="title" class="form-label   badge rounded-pill bg-light text-dark">タイトル</label>
-            <input type="text" id="title" class="form-control" name="title" value="<%= item.title %>">
-        </div>
+                <div class="mb-5 form-group">
+                    <label for="title" class="form-label   badge rounded-pill bg-light text-dark">タイトル</label>
+                    <input type="text" id="title" class="form-control" name="title" value="<%= item.title %>">
+                </div>
 
-        <%
-        //String to yyyy-MM-dd item.startDay & item.finishDay
-        function changeDate(dateObj) {
-            var yyyy = dateObj.getFullYear();
-            var MM = dateObj.getMonth() + 1;
-            if (MM < 10) MM = '0' + MM;
-            var dd = dateObj.getDate();
-            var Date = yyyy + "-" + MM + "-" + dd;
-            return Date;
-        }
-        %>
-        <div class="row mb-5">
-        <div class="col mb-3">
-            <label for="startDay" class="form-label   badge rounded-pill bg-light text-dark">予定日</label>
-            <input type="date" id="startDay" class="form-control" name="startDay" value="<%= changeDate(item.startDay) %>">
-        </div>
+                <%
+                //String to yyyy-MM-dd item.startDay & item.finishDay
+                function changeDate(dateObj) {
+                    var yyyy = dateObj.getFullYear();
+                    var MM = dateObj.getMonth() + 1;
+                    if (MM < 10) MM = '0' + MM;
+                    var dd = dateObj.getDate();
+                    var Date = yyyy + "-" + MM + "-" + dd;
+                    return Date;
+                }
+                %>
+                <div class="row mb-5">
+                    <div class="col mb-3">
+                        <label for="startDay" class="form-label   badge rounded-pill bg-light text-dark">予定日</label>
+                        <input type="date" id="startDay" class="form-control" name="startDay"
+                               value="<%= changeDate(item.startDay) %>">
+                    </div>
 
-        <div class="col mb-3">
-            <label for="finishDay" class="form-label   badge rounded-pill bg-light text-dark">完了日</label>
-            <input type="date" id="finishDay" class="form-control" name="finishDay" value="<%= changeDate(item.finishDay) %>">
-        </div>
-        </div>
-        <div class="row mb-5">
-            <div class="col mb-3">
-        <label for="priRadios" class="form-label   badge rounded-pill bg-light text-dark"> 優先順位</label>
-        <div id="priRadios">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pri" id="inlineRadio1" value="1"
-                <% if(item.priority == "1"){ %> checked
-                        <% } %>>
-                <label class="form-check-label" for="inlineRadio1">1</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pri" id="inlineRadio2" value="2"
-                <% if(item.priority == "2"){ %> checked
-                        <% } %>>
-                <label class="form-check-label" for="inlineRadio2">2</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pri" id="inlineRadio3" value="3"
-                <% if(item.priority == "3"){ %> checked
-                        <% } %>>
-                <label class="form-check-label" for="inlineRadio3">3</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pri" id="inlineRadio4" value="4"
-                <% if(item.priority == "4"){ %> checked
-                        <% } %>>
-                <label class="form-check-label" for="inlineRadio4">4</label>
-            </div>
-        </div>
-            </div>
-            <div class="col mb-3">
-        <label for="stuRadios" class="form-label   badge rounded-pill bg-light text-dark"> 完成状態</label>
-        <div id="stuRadios">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="stu" id="inlineRadio5"  value="0"
-                <% if(item.status == "0"){ %> checked
-                        <% } %>>
-                <label class="form-check-label" for="inlineRadio5">未完了</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="stu" id="inlineRadio6" value="1"
-                <% if(item.status == "1"){ %> checked
-                        <% } %>>
-                <label class="form-check-label" for="inlineRadio6">完了</label>
-            </div>
-        </div>
-        </div>
-        </div>
-        <div class="text-center d-grid gap-2 d-md-flex">
-        <input class="btn btn-outline-primary" type="button" value="Submit" onclick="sumbit_sure()">
-        <a class="btn btn-outline-primary" href="/" role="button">戻る</a>
-        </div>
-    </form>
+                    <div class="col mb-3">
+                        <label for="finishDay" class="form-label   badge rounded-pill bg-light text-dark">完了日</label>
+                        <input type="date" id="finishDay" class="form-control" name="finishDay"
+                               value="<%= changeDate(item.finishDay) %>">
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col mb-3">
+                        <label for="priRadios" class="form-label   badge rounded-pill bg-light text-dark"> 優先順位</label>
+                        <div id="priRadios">
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
+                                <input class="form-check-input" type="radio" name="pri" id="inlineRadio1" value="1"
+                                <% if(item.priority == "1"){ %> checked
+                                        <% } %>
+                                >
+                                <label class="form-check-label" for="inlineRadio1"><img src="/images/prio1.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">1</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
+                                <input class="form-check-input" type="radio" name="pri" id="inlineRadio2" value="2"
+                                <% if(item.priority == "2"){ %> checked
+                                        <% } %>
+                                >
+                                <label class="form-check-label" for="inlineRadio2"><img src="/images/prio2.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">2</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
+                                <input class="form-check-input" type="radio" name="pri" id="inlineRadio3" value="3"
+                                <% if(item.priority == "3"){ %> checked
+                                        <% } %>
+                                >
+                                <label class="form-check-label" for="inlineRadio3"><img src="/images/prio3.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">3</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
+                                <input class="form-check-input" type="radio" name="pri" id="inlineRadio4" value="4"
+                                <% if(item.priority == "4"){ %> checked
+                                        <% } %>
+                                >
+                                <label class="form-check-label" for="inlineRadio4"><img src="/images/prio4.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">4</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="stuRadios" class="form-label   badge rounded-pill bg-light text-dark"> 完成状態</label>
+                        <div id="stuRadios">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="stu" id="inlineRadio5" value="0"
+                                <% if(item.status == "0"){ %> checked
+                                        <% } %>
+                                >
+                                <label class="form-check-label" for="inlineRadio5">未完了</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="stu" id="inlineRadio6" value="1"
+                                <% if(item.status == "1"){ %> checked
+                                        <% } %>
+                                >
+                                <label class="form-check-label" for="inlineRadio6">完了</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center d-grid gap-2 d-md-flex">
+                    <input class="btn btn-outline-primary" type="button" value="Submit" onclick="sumbit_sure()">
+                    <a class="btn btn-outline-primary" href="/" role="button">戻る</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -142,25 +159,32 @@
 </footer>
 </body>
 <script>
-    function sumbit_sure(){
+    // DATE CONTROL - date min
+    $('#startDay').bind('input propertychange', function () {
+        var start = $('#startDay').val();
+        $('#finishDay').attr('min', start);
+    });
+
+
+    function sumbit_sure() {
         var t = $('form').serializeArray();
         console.log(t);
         var empty = false;
-        $.each(t, function(){
-            if(this.value.length == 0){
+        $.each(t, function () {
+            if (this.value.length == 0) {
                 alert('全ての項目が必須です！');
                 empty = true;
                 return false;
             }
         })
-        if(empty){
+        if (empty) {
             return false;
-        }else{
+        } else {
             var comf = confirm("提出してもいいですか？");
-            if (comf){
+            if (comf) {
                 $('form').submit();
                 alert('更新しました！')
-            }else{
+            } else {
                 return false;
             }
         }

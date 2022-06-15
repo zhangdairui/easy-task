@@ -75,25 +75,25 @@
                 user: user.val(),
                 pwd: pwd.val()
             }
-                $.ajax({ //POST
-                    type: 'post',
-                    url: '/reg',
-                    dataType: 'json',
-                    data: regdata,
-                    async: true,
-                    success: function (data) {
-                        if (data.code > 0) {
-                            //成功
-                            alert(data.msg);
-                            window.location.href = '/';
-                        } else {
-                            alert(data.msg);
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error)
+            $.ajax({ //POST
+                type: 'post',
+                url: '/reg',
+                dataType: 'json',
+                data: regdata,
+                async: true,
+                success: function (data) {
+                    if (data.code > 0) {
+                        //成功
+                        alert(data.msg);
+                        window.location.href = '/';
+                    } else {
+                        alert(data.msg);
                     }
-                })
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
         })
     })
 

@@ -74,22 +74,30 @@
                     <div class="col mb-3">
                         <label for="priRadios" class="form-label  badge rounded-pill bg-light text-dark"> 優先順位</label>
                         <div id="priRadios" class="mb-3">
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
                                 <input class="form-check-input" type="radio" name="pri" id="inlineRadio1" checked
                                        value="1">
-                                <label class="form-check-label" for="inlineRadio1">1</label>
+                                <label class="form-check-label" for="inlineRadio1"><img src="/images/prio1.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">1</label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
                                 <input class="form-check-input" type="radio" name="pri" id="inlineRadio2" value="2">
-                                <label class="form-check-label" for="inlineRadio2">2</label>
+                                <label class="form-check-label" for="inlineRadio2"><img src="/images/prio2.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">2</label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
                                 <input class="form-check-input" type="radio" name="pri" id="inlineRadio3" value="3">
-                                <label class="form-check-label" for="inlineRadio3">3</label>
+                                <label class="form-check-label" for="inlineRadio3"><img src="/images/prio3.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">3</label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline" style="margin-right: 1em;">
                                 <input class="form-check-input" type="radio" name="pri" id="inlineRadio4" value="4">
-                                <label class="form-check-label" for="inlineRadio4">4</label>
+                                <label class="form-check-label" for="inlineRadio4"><img src="/images/prio4.svg"
+                                                                                        style="width:2.2em;"
+                                                                                        alt="">4</label>
                             </div>
                         </div>
                     </div>
@@ -122,6 +130,14 @@
 </footer>
 </body>
 <script>
+    // DATE CONTROL - date min
+    $('#startDay').bind('input propertychange', function () {
+        var start = $('#startDay').val();
+        $('#finishDay').attr('min', start);
+    });
+
+
+    //SUBMIT
     function sumbit_sure() {
         //全ての項目が必須！
         var t = $('form').serializeArray();

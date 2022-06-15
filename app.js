@@ -114,15 +114,15 @@ app.use('/reg', (req, res) => {
         },
 
         (error, results) => {
-            if(error){
-                if (error.code=='ER_DUP_ENTRY'){
+            if (error) {
+                if (error.code == 'ER_DUP_ENTRY') {
                     console.log('このIDは既に登録されています！');
                     res.json({code: -1, msg: 'このIDは既に登録されています！'})
                 }
-                if(error.code=='ER_BAD_NULL_ERROR'){
+                if (error.code == 'ER_BAD_NULL_ERROR') {
                     return;
                 }
-            }else{
+            } else {
                 console.log('新規ユーザーを登録しました！');
                 res.json({code: 1, msg: '登録成功！'})
                 // res.redirect('/loginReg');

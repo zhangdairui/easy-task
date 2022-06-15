@@ -16,7 +16,7 @@
 <body>
 <nav class="navbar">
     <div class="container-fluid d-flex flex-row-reverse">
-        <span class="navbar-text" >こんにちは！<%= userID %>
+        <span class="navbar-text">こんにちは！<%= userID %>
             <a href="/logout" id="loggout" class="text-end" style="margin-left: 1.5em;">ログアウト</a>
         </span>
     </div>
@@ -30,8 +30,10 @@
 
         <div class="newBtn d-grid gap-2  d-md-flex justify-content-md-end">
             <a href="/new" role="button" id="newBtn" class="btn btn-outline-primary col-md-3 offset-md-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                 </svg>
                 新規タスクを登録する
             </a>
@@ -61,95 +63,118 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="uncompleted" role="tabpanel"
                      aria-labelledby="uncompleted-tab">
-                    <div id="empty-uncompleted" hidden="hidden" class="alert alert-light text-center" role="alert">未完了タスクがありません。</div>
+                    <div id="empty-uncompleted" hidden="hidden" class="alert alert-light text-center" role="alert">
+                        未完了タスクがありません。
+                    </div>
                     <div class="table-responsive">
-                    <table id="ucList" class="table table-hover table-borderless mb-5">
-                        <tr>
-                            <th scope="col">選択</th>
-                            <th scope="col">タスクID</th>
-                            <th scope="col">タイトル</th>
-                            <th scope="col">予定日</th>
-                            <th scope="col">完了日</th>
-                            <th scope="col">優先順位 <a tabindex="0" id="priMeaning"
-                                                    class="badge rounded-pill bg-light text-dark" role="button"
-                                                    data-bs-toggle="popover" data-bs-trigger="focus" title="優先順位"
-                                                    data-bs-content="1>2>3>4">?</a></th>
-                            <!--                    <th scope="col">Status</th>-->
-                        </tr>
-                        <% ucTASK.forEach((item) => { %>
-                            <tr class="listRow" onclick="location.href='/edit/<%= item.taskId %>' ">
-                                <td class="check-column" onclick="stopHref()">
-                                    <input class="square-check" name="taskCheck" type="checkbox" value=<%= item.taskId %>>
-                                </td>
-                                <td class="taskID-column">
-                                    <%= item.taskId %>
-                                </td>
-                                <td class="title-column">
-                                    <%= item.title %>
-                                </td>
-                                <td class="start-column">
-                                    <%= item.startDay.toLocaleDateString() %>
-                                </td>
-                                <td class="finish-column">
-                                    <%= item.finishDay.toLocaleDateString() %>
-                                </td>
-                                <td class="priority-column">
-                                    <%= item.priority %>
-                                </td>
+                        <table id="ucList" class="table table-hover table-borderless mb-5">
+                            <tr>
+                                <th scope="col"><input class="selectAll-uc" type="checkbox"/></th>
+                                <th scope="col">タスクID</th>
+                                <th scope="col">タイトル</th>
+                                <th scope="col">予定日</th>
+                                <th scope="col">完了日</th>
+                                <th scope="col">優先順位 <a tabindex="0" id="priMeaning"
+                                                        class="badge rounded-pill bg-light text-dark" role="button"
+                                                        data-toggle="popover" title="優先度">?</a>
                             </tr>
-                        <% }) %>
-                    </table>
+                            <% ucTASK.forEach((item) => { %>
+                                <tr class="listRow" onclick="location.href='/edit/<%= item.taskId %>' ">
+                                    <td class="check-column" onclick="stopHref()">
+                                        <input class="square-check-uc" name="taskCheck" type="checkbox"
+                                               value=<%= item.taskId %>>
+                                    </td>
+                                    <td class="taskID-column">
+                                        <%= item.taskId %>
+                                    </td>
+                                    <td class="title-column">
+                                        <%= item.title %>
+                                    </td>
+                                    <td class="start-column">
+                                        <%= item.startDay.toLocaleDateString() %>
+                                    </td>
+                                    <td class="finish-column">
+                                        <%= item.finishDay.toLocaleDateString() %>
+                                    </td>
+                                    <td class="priority-column">
+                                        <img src="/images/prio<%= item.priority %>.svg" style="width:2.2em;" alt="">
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </table>
                     </div>
                     <div class="d-grid gap-2 d-md-flex">
 
-                    <button type="button" id="deBtn-uc" class="deleBtn btn btn-outline-primary" >選択した項目を削除する</button>
-                    <button type="button" id="compltBtn" class="btn btn-outline-primary">選択した項目を完成する</button>
+                        <button type="button" id="deBtn-uc" class="deleBtn btn btn-outline-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                            </svg>
+                            選択した項目を削除する
+                        </button>
+                        <button type="button" id="compltBtn" class="btn btn-outline-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                            </svg>
+                            選択した項目を完成する
+                        </button>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                    <div id="empty-completed" hidden="hidden" class="alert alert-light text-center" role="alert">完了タスクがありません。</div>
+                    <div id="empty-completed" hidden="hidden" class="alert alert-light text-center" role="alert">
+                        完了タスクがありません。
+                    </div>
                     <div class="table-responsive">
-                    <table id="cList" class="table table-hover table-borderless  mb-5">
-                        <tr>
-                            <th scope="col">選択</th>
-                            <th scope="col">タスクID</th>
-                            <th scope="col">タイトル</th>
-                            <th scope="col">予定日</th>
-                            <th scope="col">完了日</th>
-                            <th scope="col">優先順位 <a tabindex="0" id="priMeaning"
-                                                    class="badge rounded-pill bg-light text-dark" role="button"
-                                                    data-bs-toggle="popover" data-bs-trigger="focus" title="優先順位"
-                                                    data-bs-content="1>2>3>4">?</a></th>
+                        <table id="cList" class="table table-hover table-borderless  mb-5">
+                            <tr>
+                                <th scope="col"><input class="selectAll-c" type="checkbox"/></th>
+                                <th scope="col">タスクID</th>
+                                <th scope="col">タイトル</th>
+                                <th scope="col">予定日</th>
+                                <th scope="col">完了日</th>
+                                <th scope="col">優先順位 <a tabindex="0" id="priMeaning"
+                                                        class="badge rounded-pill bg-light text-dark" role="button"
+                                                        data-toggle="popover" title="優先度">?
+                                    </a>
+                                </th>
 
-                        </tr>
-                        <% cTASK.forEach((item) => { %>
-                            <tr class="listRow" onclick="location.href='/edit/<%= item.taskId %>' ">
-                                <td class="check-column" onclick="stopHref()">
-                                    <input name="taskCheck" type="checkbox" value=<%= item.taskId %>>
-                                </td>
-                                <td class="taskID-column">
-                                    <%= item.taskId %>
-                                </td>
-                                <td class="title-column">
-                                    <%= item.title %>
-                                </td>
-                                <td class="start-column">
-                                    <%= item.startDay.toLocaleDateString() %>
-                                </td>
-                                <td class="finish-column">
-                                    <%= item.finishDay.toLocaleDateString() %>
-                                </td>
-                                <td class="priority-column">
-                                    <%= item.priority %>
-                                </td>
                             </tr>
-                        <% }) %>
-                    </table>
+                            <% cTASK.forEach((item) => { %>
+                                <tr class="listRow" onclick="location.href='/edit/<%= item.taskId %>' ">
+                                    <td class="check-column" onclick="stopHref()">
+                                        <input class="square-check-c" name="taskCheck" type="checkbox"
+                                               value=<%= item.taskId %>>
+                                    </td>
+                                    <td class="taskID-column">
+                                        <%= item.taskId %>
+                                    </td>
+                                    <td class="title-column">
+                                        <%= item.title %>
+                                    </td>
+                                    <td class="start-column">
+                                        <%= item.startDay.toLocaleDateString() %>
+                                    </td>
+                                    <td class="finish-column">
+                                        <%= item.finishDay.toLocaleDateString() %>
+                                    </td>
+                                    <td class="priority-column">
+                                        <img src="/images/prio<%= item.priority %>.svg" style="width:2.2em;" alt="">
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </table>
                     </div>
                     <div class="d-grid gap-2 d-md-flex">
-                    <button type="button" id="deBtn-c" class="deleBtn btn btn-outline-primary">選択した項目を削除する</button>
+                        <button type="button" id="deBtn-c" class="deleBtn btn btn-outline-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                            </svg>
+                            選択した項目を削除する
+                        </button>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -161,6 +186,20 @@
 </body>
 
 <script>
+    //-----------------------POPOVER----------------------------------
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover({
+            placement: 'top',
+            trigger: 'hover',
+            html: true,
+            content:
+                '<img src="/images/arrow-down.svg" style="padding-left: 30px;">' +
+                '<img src="/images/prio1.svg">' +
+                '<img src="/images/prio2.svg">' +
+                '<img src="/images/prio3.svg">' +
+                '<img src="/images/prio4.svg">'
+        });
+    });
     //-----------------------TASK EMPTY----------------------------------
     $(document).ready(function () {
 
@@ -179,19 +218,12 @@
             $("#cList").attr("hidden", "hidden");
             $("#deBtn-c").attr("hidden", "hidden");
         }
-
-        var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-            return new bootstrap.Popover(popoverTriggerEl)
-        })
-        var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
-            trigger: 'focus'
-        })
     });
     //-----------------------BUBBLE STOP阻止穿透----------------------------------
     var stopHref = function () {
         event.stopPropagation();
     }
+
     //-----------------------DELETE----------------------------------
     $('.deleBtn').click(function () {
         var arr = [];
@@ -273,5 +305,64 @@
             }
         }
     })
+</script>
+<script>
+    //-----------------------SELECT ALL----------------------------------
+    //uncompleted
+    var isCheckAlluc = false;
+    $(".selectAll-uc").change(function () {
+        if (isCheckAlluc) {
+            $('.square-check-uc').each(function () {
+                this.checked = false;
+            });
+            isCheckAlluc = false;
+        } else {
+            $('.square-check-uc').each(function () {
+                this.checked = true;
+            });
+            isCheckAlluc = true;
+        }
+    });
+    //completed
+    var isCheckAllc = false;
+    $(".selectAll-c").change(function () {
+        if (isCheckAllc) {
+            $('.square-check-c').each(function () {
+                this.checked = false;
+            });
+            isCheckAllc = false;
+        } else {
+            $('.square-check-c').each(function () {
+                this.checked = true;
+            });
+            isCheckAllc = true;
+        }
+    });
+
+</script>
+<script>
+    //-----------------------clear checked boxes when change tab----------------------------------
+    $('#uncompleted-tab').click(function () {
+        $(".selectAll-uc").prop("checked", false);
+        $('.square-check-uc').each(function () {
+            this.checked = false;
+        });
+        $('.square-check-c').each(function () {
+            this.checked = false;
+        });
+    })
+
+    $('#completed-tab').click(function () {
+        $(".selectAll-c").prop("checked", false);
+
+        $('.square-check-uc').each(function () {
+            this.checked = false;
+        });
+
+        $('.square-check-c').each(function () {
+            this.checked = false;
+        });
+    })
+
 </script>
 </html>
